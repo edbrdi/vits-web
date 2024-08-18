@@ -11,7 +11,7 @@ export declare class TtsSession {
     constructor({ voiceId, progress }: TtsSessionOptions);
     static create(options: TtsSessionOptions): Promise<TtsSession>;
     init(): Promise<void>;
-    predict(text: string): Promise<Blob>;
+    predict(text: string, speakerId?: number): Promise<Blob>;
 }
 /**
  * Run text to speech inference in new worker thread. Fetches the model

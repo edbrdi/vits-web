@@ -212,9 +212,9 @@ const y = class y {
       await t.arrayBuffer()
     ));
   }
-  async predict(e) {
+  async predict(e, i) {
     await this.waitReady;
-    const i = JSON.stringify([{ text: e.trim() }]), o = await new Promise(async (N) => {
+    const o = JSON.stringify([{ text: e.trim() }]), t = await new Promise(async (N) => {
       (await a(this, x).call(this, {
         print: (d) => {
           N(JSON.parse(d).phoneme_ids);
@@ -227,13 +227,13 @@ const y = class y {
         "-l",
         a(this, r).espeak.voice,
         "--input",
-        i,
+        o,
         "--espeak_data",
         "/espeak-ng-data"
       ]);
-    }), t = 0, m = a(this, r).audio.sample_rate, s = a(this, r).inference.noise_scale, l = a(this, r).inference.length_scale, u = a(this, r).inference.noise_w, g = a(this, f), E = {
-      input: new (a(this, _)).Tensor("int64", o, [1, o.length]),
-      input_lengths: new (a(this, _)).Tensor("int64", [o.length]),
+    }), m = a(this, r).audio.sample_rate, s = a(this, r).inference.noise_scale, l = a(this, r).inference.length_scale, u = a(this, r).inference.noise_w, g = a(this, f), E = {
+      input: new (a(this, _)).Tensor("int64", t, [1, t.length]),
+      input_lengths: new (a(this, _)).Tensor("int64", [t.length]),
       scales: new (a(this, _)).Tensor("float32", [
         s,
         l,
@@ -241,7 +241,7 @@ const y = class y {
       ])
     };
     Object.keys(a(this, r).speaker_id_map).length && Object.assign(E, {
-      sid: new (a(this, _)).Tensor("int64", [t])
+      sid: new (a(this, _)).Tensor("int64", [i || 0])
     });
     const {
       output: { data: G }

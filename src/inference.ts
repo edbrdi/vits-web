@@ -53,7 +53,7 @@ export class TtsSession {
     );
   }
 
-  async predict(text: string): Promise<Blob> {
+  async predict(text: string, speakerId?: number): Promise<Blob> {
     await this.waitReady; // wait for the session to be ready
 
     const input = JSON.stringify([{ text: text.trim() }]);
@@ -83,7 +83,6 @@ export class TtsSession {
       ]);
     });
 
-    const speakerId = 0;
     const sampleRate = this.#modelConfig.audio.sample_rate;
     const noiseScale = this.#modelConfig.inference.noise_scale;
     const lengthScale = this.#modelConfig.inference.length_scale;
@@ -101,7 +100,7 @@ export class TtsSession {
     };
     if (Object.keys(this.#modelConfig.speaker_id_map).length) {
       Object.assign(feeds, {
-        sid: new this.#ort!.Tensor("int64", [speakerId]),
+        sid: new this.#ort!.Tensor("int64", [speakerId || 0]),
       });
     }
 
@@ -144,4 +143,3 @@ async function getBlob(url: string, callback?: ProgressCallback) {
 
   return blob;
 }
-
